@@ -44,6 +44,21 @@ public class Score {
         }
     }
 
+    public Score(String scoreName, int ScoreEsc100) {
+        // En este constructor no se requiere el puntero this (opcional)
+        this.evaluatedConcept = scoreName;
+        this.cualitative = "Sin asignar";
+        scale100 = ScoreEsc100;
+        scale5 = ((double)scale100)/20; // Puesto que scale100 es int, para evitar perdida de informacion hacemos un casting
+
+        if(scale100 >= Score.APROVED_SCALE100) {
+            this.cualitative = "Approved";
+
+        } else {
+            this.cualitative = "Not approved";
+        }
+    }
+
     public Score(double ScoreEsc5) {
         // En este constructor no se requiere el puntero this (opcional)
         this.evaluatedConcept = "Concepto sin asignar";
@@ -51,7 +66,7 @@ public class Score {
         //long test = Math.round(ScoreEsc5);
         //int test = (int)ScoreEsc5; // se descarta por completo la parte decimal (truncado)
         scale5 = ScoreEsc5;
-        scale100 = (int)(20*scale5); // Puesto que scale100 es int, para evitar perdida de informacion hacemos un casting
+        scale100 = (int)(20*scale5); // Puesto que scale5 es double, para evitar perdida de informacion primero se multiplica por 20
 
         if(scale5 >= APROVED_SCALE5) { // Score.APROVED_SCALE5: Scorecion para acceder este atributo desde fuera de la clase
             this.cualitative = "Approved";
@@ -97,5 +112,25 @@ public class Score {
     // Se deben usar setters solo cuando se desee cambiar el valor de atributos privados de manera externa
     public void setEvaluatedConcept(String evaluatedConcept) {
         this.evaluatedConcept = evaluatedConcept;
+    }
+
+    public void setScale100(int scale100) {
+        this.scale100 = scale100;
+        scale5 = ((double)scale100)/20;
+        if(scale100 >= Score.APROVED_SCALE100) {
+            this.cualitative = "Approved";
+        } else {
+            this.cualitative = "Not approved";
+        }
+    }
+
+    public void setScale5(double scale5) {
+        this.scale5 = scale5;
+        scale100 = (int)(20*scale5);
+        if(scale5 >= APROVED_SCALE5) { // Score.APROVED_SCALE5: Scorecion para acceder este atributo desde fuera de la clase
+            this.cualitative = "Approved";
+        } else {
+            this.cualitative = "Reprobated";
+        }
     }
 }

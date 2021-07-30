@@ -51,5 +51,5 @@ public class Student {
 
         public void setSurnames(String surnames) {
             this.surnames = surnames;
-        } 
+        }
 }

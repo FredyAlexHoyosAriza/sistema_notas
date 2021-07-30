@@ -21,7 +21,7 @@ public class App
         // Score nota3 = new Score(3.85);
         // nota3.showScore();
 
-        Course course = new Course("AA0010276", "Programacion Basica", 40, 50, 39, 76, 96);
+        Course course = new Course("Programacion Basica", 0010276, 40, 50, 39, 76, 96);
         course.getAdjustedAverage();
         course.showCourse();
     }

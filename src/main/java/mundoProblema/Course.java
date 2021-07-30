@@ -11,29 +11,32 @@ public class Course {
 
     // Attributes
     private String courseName;
-    private String courseStudentCode;
+    private int courseStudentCode;
     private double adjustedAverage;
     private ArrayList<Score> scoresCollection = new ArrayList<Score>();
     private Score worstScore;
     private Student student;
+    // private int[] a = new int[10];
     // private Score bestScore;
+
+    // Methods: the signature of a method is established by its input parameters; type, quantity and order
 
     // Constructors
     // Coruse(): publico en el mundo del paquete
     // public Course(): publico externamente fuera del paquete
     public Course()  {
         courseName = "Not assigned";
-        courseStudentCode = "0000";
+        courseStudentCode = 0000;
         adjustedAverage = 0.0;
         for(Score score : scoresCollection) {
             score = new Score();
         }
-        worstScore = new Score();
+        worstScore = new Score(); // worstScore = new Score(100);
         student =  new Student();
         // bestScore;
 
     }
-    public Course(String _courseName, String _courseStudentCode, int n1, int n2, int n3, int n4, int n5) { // publico externamente
+    public Course(String _courseName, int _courseStudentCode, int n1, int n2, int n3, int n4, int n5) { // publico externamente
         // Se pudo haber recibido un arreglo de enteros y cargar un numero variable de enteros en ScoresCollection
 
         // Por convencion los objetos llevan nobmres que empiezan en minuscula y
@@ -46,7 +49,27 @@ public class Course {
         scoresCollection.add(new Score(n3));
         scoresCollection.add(new Score(n4));
         scoresCollection.add(new Score(n5));
-        worstScore = new Score(100);
+        worstScore = new Score();
+        // bestScore = new Score(0);
+        adjustedAverage = 0;
+        // Por coherencia, los objetos tipo Score no deberian existir fuera de la clase Course (fuera del contexto Course)
+    }
+
+    public Course(Student _student, String _courseName, int n1, int n2, int n3, int n4, int n5) { // publico externamente
+        // Se pudo haber recibido un arreglo de enteros y cargar un numero variable de enteros en ScoresCollection
+
+        // Por convencion los objetos llevan nobmres que empiezan en minuscula y
+        // clases llevan nombres que empiezan en mayusculas
+        student = _student;
+        courseName = _courseName;
+        courseStudentCode = student.getCode();
+        // scoresCollection = new ArrayList<Score>();
+        scoresCollection.add(new Score(n1));
+        scoresCollection.add(new Score(n2));
+        scoresCollection.add(new Score(n3));
+        scoresCollection.add(new Score(n4));
+        scoresCollection.add(new Score(n5));
+        worstScore = new Score();
         // bestScore = new Score(0);
         adjustedAverage = 0;
         // Por coherencia, los objetos tipo Score no deberian existir fuera de la clase Course (fuera del contexto Course)
@@ -56,24 +79,40 @@ public class Course {
     
     // Get the worst Score
     public void getWorstScore() {
-        int[] a = new int[10];
-        // int worstScore100 = 100;
+        // int[] a = new int[10];
+        int aux = 0, worstScore100 = scoresCollection.get(0).getScale100();
+        for (int i = 1; i < scoresCollection.size(); i++) {
+            aux = scoresCollection.get(i).getScale100();
+            if(aux < worstScore100) {
+                worstScore100 = aux;
+            }
+        }
+        worstScore.setScale100(worstScore100);
+        /*
         for(Score score : scoresCollection) {
             if(score.getScale100() < worstScore.getScale100()){
                 worstScore = score;
             }
-
         }
+        */
     }
 
     //
     public void getAdjustedAverage(){
         this.getWorstScore();
         // Recorrer scoresCollection para obtener el promedio ajustado
+        adjustedAverage = 0;
         for (Score score : scoresCollection){
             adjustedAverage += score.getScale5();
         }
         adjustedAverage = (adjustedAverage - worstScore.getScale5())/(scoresCollection.size()-1);
+    }
+
+    // Show the student code with his respective adjusted average
+    public void showAdjustedAverage() {
+        this.getAdjustedAverage();
+        // System.out.printf("Adjusted average of " + this.courseStudentCode + ": %.2f \n" , this.adjustedAverage);
+        System.out.printf("Adjusted average of " + student.getCode() + ": %.2f \n" , this.adjustedAverage);
     }
 
     // Show course
@@ -83,17 +122,49 @@ public class Course {
         for(Score score : scoresCollection) {
             score.showScore();
         }
-        System.out.printf("Adjusted average of " + this.courseStudentCode + ": %.2f \n" , this.adjustedAverage);
+        System.out.printf("Adjusted average of " + student.getCode() + ": %.2f \n" , this.adjustedAverage);
         System.out.println("Worst score: ");
         this.worstScore.showScore();
     }
-    
+
+    public void setNameAndScores(String _courseName, int n1, int n2, int n3, int n4, int n5) { // publico externamente
+        // Se pudo haber recibido un arreglo de enteros y cargar un numero variable de enteros en ScoresCollection
+
+        // Por convencion los objetos llevan nobmres que empiezan en minuscula y
+        // clases llevan nombres que empiezan en mayusculas
+        courseName = _courseName;
+        // scoresCollection = new ArrayList<Score>();
+        scoresCollection.add(new Score(n1));
+        scoresCollection.add(new Score(n2));
+        scoresCollection.add(new Score(n3));
+        scoresCollection.add(new Score(n4));
+        scoresCollection.add(new Score(n5));
+        this.getAdjustedAverage();
+    }
+
+    // Add a new course score
+    public void addCourseScore(int courseScore) {
+        scoresCollection.add(new Score(courseScore));
+        this.getAdjustedAverage();
+    }
+
+    public void addCourseScore(String scoreName, int Score100) {
+        scoresCollection.add(new Score(scoreName, Score100));
+        this.getAdjustedAverage();
+    }
+
+    // Getters    
     public String getCourseName() {
         return courseName;
     }
 
-    public String getCourseStudentCode() {
+    public int getCourseStudentCode() {
         return courseStudentCode;
+    }
+
+    // Setters
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public void setCourseName(String courseName) {
