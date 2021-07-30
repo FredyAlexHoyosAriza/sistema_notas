@@ -7,6 +7,11 @@ package mundoProblema;
 // asociacion multiple es agregacion
 import java.util.ArrayList;
 
+// En python se tiene que el tipado para los argumentos de las funciones es dinamico,
+// en tanto que aqui en java el tipado es estatico, por ello, en los metodos no se
+// usan argumentos con valores por omision. El costo de la flexibilidad en python es
+// un mayor costo computacional que lo hace un poco mas lento que java
+
 public class Course {
 
     // Attributes
@@ -142,9 +147,14 @@ public class Course {
         this.getAdjustedAverage();
     }
 
+    // El polimorfismo se da cuando para un mismo metodo existen diferentes inplementaciones independientemente
+    // de si hacen o no lo mismo; el sistema diferencia entre estos metodos a partir de sus firmas, es decir,
+    // el tipo, cantidad y orden de sus arguementos de entrada pero no de su retorno.
+
     // Add a new course score
-    public void addCourseScore(int courseScore) {
-        scoresCollection.add(new Score(courseScore));
+    // En este caso se trataria de un polimorfismo en tiempo de compilacion
+    public void addCourseScore(int Score100) {
+        scoresCollection.add(new Score(Score100));
         this.getAdjustedAverage();
     }
 
